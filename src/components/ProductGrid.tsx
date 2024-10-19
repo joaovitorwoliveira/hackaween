@@ -75,7 +75,7 @@ export default function ProductGrid() {
           />
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {filteredProducts.map((product) => (
           <Card key={product.id} className="flex flex-col">
             <CardHeader>
@@ -84,19 +84,19 @@ export default function ProductGrid() {
                 alt={product.name}
                 width={400}
                 height={400}
-                className="w-full h-48 object-cover rounded-t-lg"
+                className="w-full h-24 object-cover rounded-t-lg"
               />
             </CardHeader>
             <CardContent className="flex-grow">
               <CardTitle>{product.name}</CardTitle>
               <div className="mt-2">
-                <span className="text-muted-foreground line-through">
+                <span className="text-muted-foreground line-through text-sm">
                   {product.fullPrice.toLocaleString("pt-br", {
                     style: "currency",
                     currency: "BRL",
                   })}
                 </span>
-                <span className="text-xl font-bold ml-2">
+                <span className="text-md font-bold ml-2">
                   {product.discountedPrice.toLocaleString("pt-br", {
                     style: "currency",
                     currency: "BRL",
@@ -117,7 +117,7 @@ export default function ProductGrid() {
             <CardFooter>
               <Button
                 onClick={() => addToCart(product.id)}
-                className="w-full bg-[#328366]"
+                className="w-full bg-[#328366] text-[9px]"
               >
                 Adicionar ao carrinho{" "}
                 {cart.find((item) => item.id === product.id)?.quantity

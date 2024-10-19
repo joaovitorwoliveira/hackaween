@@ -2,8 +2,8 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-secondary text-secondary-foreground mt-10 ">
-      <div className="container mx-auto px-4 py-8">
+    <footer className="bg-secondary text-secondary-foreground mt-10  ">
+      <div className="container mx-auto px-4 py-8 bg-[#507a72] text-primary-foreground">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             {/* <h3 className="text-lg font-semibold mb-4">Sobre Última Chance</h3> */}
