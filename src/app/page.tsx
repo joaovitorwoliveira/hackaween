@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import ProductGrid from "@/components/ProductGrid";
 import PromotionBanner from "@/components/PromotionBanner";
@@ -8,6 +9,7 @@ export default function Home() {
       <Header />
       <PromotionBanner />
       <ProductGrid />
+      <Footer />
     </div>
   );
 }
