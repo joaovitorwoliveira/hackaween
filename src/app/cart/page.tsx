@@ -23,7 +23,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { toast } from "sonner"; // Importando para notificações
 
 export default function CartPage() {
   const [cart, setCart] = useState<{ id: number; quantity: number }[]>([]);
@@ -51,7 +50,6 @@ export default function CartPage() {
     }
 
     saveCartToLocalStorage(updatedCart);
-    toast.success("Produto adicionado ao carrinho");
   };
 
   const removeFromCart = (id: number) => {
@@ -61,7 +59,6 @@ export default function CartPage() {
       )
       .filter((item) => item.quantity > 0);
     saveCartToLocalStorage(updatedCart);
-    toast.success("Produto removido do carrinho");
   };
 
   const updateQuantity = (id: number, newQuantity: number) => {
@@ -78,9 +75,9 @@ export default function CartPage() {
   const removeProduct = (id: number) => {
     const updatedCart = cart.filter((item) => item.id !== id);
     saveCartToLocalStorage(updatedCart);
-    toast.success("Produto removido do carrinho");
   };
 
+  // Mapear produtos do carrinho, vinculando à quantidade no estado do carrinho
   const cartProducts = cart
     .map((cartItem) => {
       const product = products.find((p) => p.id === cartItem.id);
@@ -129,7 +126,7 @@ export default function CartPage() {
                     <TableCell>
                       <Input
                         type="number"
-                        value={item.quantity || 1}
+                        value={item.quantity || 1} // 'quantity' agora vem do estado do carrinho
                         onChange={(e) =>
                           updateQuantity(item.id, parseInt(e.target.value))
                         }

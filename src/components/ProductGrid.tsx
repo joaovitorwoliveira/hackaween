@@ -13,33 +13,18 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { products } from "@/data-mock/products";
-import { Star, ChevronUp, ChevronDown } from "lucide-react";
-import { toast } from "sonner"; // Importando o Sonner para notificações
 
 export default function ProductGrid() {
   const [cart, setCart] = useState<{ id: number; quantity: number }[]>([]);
-  const [favorites, setFavorites] = useState<number[]>([]);
   const [filterType, setFilterType] = useState<string>("name");
   const [filterValue, setFilterValue] = useState<string>("");
-  const [sortOrder, setSortOrder] = useState<string>("none");
-  const [recentlyViewed, setRecentlyViewed] = useState<number[]>([]);
 
   useEffect(() => {
     const storedCart = localStorage.getItem("cartItems");
     if (storedCart) {
       setCart(JSON.parse(storedCart));
     }
-
-    const storedFavorites = localStorage.getItem("favorites");
-    if (storedFavorites) {
-      setFavorites(JSON.parse(storedFavorites));
-    }
   }, []);
-
-  const saveCartToLocalStorage = (updatedCart: { id: number; quantity: number }[]) => {
-    setCart(updatedCart);
-    localStorage.setItem("cartItems", JSON.stringify(updatedCart));
-  };
 
   const addToCart = (productId: number) => {
     const updatedCart = cart.map((item) =>
@@ -52,45 +37,21 @@ export default function ProductGrid() {
       updatedCart.push({ id: productId, quantity: 1 });
     }
 
-    saveCartToLocalStorage(updatedCart);
-
-    // Notificação de sucesso ao adicionar ao carrinho
-    toast.success("Produto adicionado ao carrinho!");
+    setCart(updatedCart);
+    localStorage.setItem("cartItems", JSON.stringify(updatedCart));
   };
 
-  const toggleFavorite = (productId: number) => {
-    const updatedFavorites = favorites.includes(productId)
-      ? favorites.filter((id) => id !== productId)
-      : [...favorites, productId];
-    setFavorites(updatedFavorites);
-    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-  };
-
-  const viewProduct = (productId: number) => {
-    const updatedRecentlyViewed = [...new Set([productId, ...recentlyViewed])].slice(0, 5);
-    setRecentlyViewed(updatedRecentlyViewed);
-  };
-
-  const filteredProducts = products
-    .filter((product) => {
-      if (filterType === "name") {
-        return product.name.toLowerCase().includes(filterValue.toLowerCase());
-      }
-      if (filterType === "category") {
-        return product.category
-          ?.toLowerCase()
-          .includes(filterValue.toLowerCase());
-      }
-      return true;
-    })
-    .sort((a, b) => {
-      if (sortOrder === "price-asc") {
-        return a.discountedPrice - b.discountedPrice;
-      } else if (sortOrder === "price-desc") {
-        return b.discountedPrice - a.discountedPrice;
-      }
-      return 0;
-    });
+  const filteredProducts = products.filter((product) => {
+    if (filterType === "name") {
+      return product.name.toLowerCase().includes(filterValue.toLowerCase());
+    }
+    if (filterType === "category") {
+      return product.category
+        ?.toLowerCase()
+        .includes(filterValue.toLowerCase());
+    }
+    return true;
+  });
 
   return (
     <div>
@@ -113,21 +74,8 @@ export default function ProductGrid() {
             onChange={(e) => setFilterValue(e.target.value)}
           />
         </div>
-        <div className="flex items-center space-x-2">
-          <Button
-            variant="outline"
-            onClick={() =>
-              setSortOrder(sortOrder === "price-asc" ? "price-desc" : "price-asc")
-            }
-          >
-            Ordenar por Preço{" "}
-            {sortOrder === "price-asc" ? <ChevronUp /> : <ChevronDown />}
-          </Button>
-        </div>
       </div>
-
-      {/* Grid de Produtos */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {filteredProducts.map((product) => (
           <Card key={product.id} className="flex flex-col">
             <CardHeader>
@@ -136,32 +84,19 @@ export default function ProductGrid() {
                 alt={product.name}
                 width={400}
                 height={400}
-                className="w-full h-48 object-cover rounded-t-lg"
-                onClick={() => viewProduct(product.id)}
+                className="w-full h-24 object-cover rounded-t-lg"
               />
             </CardHeader>
             <CardContent className="flex-grow">
-              <div className="flex justify-between">
-                <CardTitle>{product.name}</CardTitle>
-                <Button
-                  variant="ghost"
-                  className="p-1"
-                  onClick={() => toggleFavorite(product.id)}
-                >
-                  <Star
-                    fill={favorites.includes(product.id) ? "gold" : "none"}
-                    color={favorites.includes(product.id) ? "gold" : "gray"}
-                  />
-                </Button>
-              </div>
+              <CardTitle>{product.name}</CardTitle>
               <div className="mt-2">
-                <span className="text-muted-foreground line-through">
+                <span className="text-muted-foreground line-through text-sm">
                   {product.fullPrice.toLocaleString("pt-br", {
                     style: "currency",
                     currency: "BRL",
                   })}
                 </span>
-                <span className="text-xl font-bold ml-2">
+                <span className="text-md font-bold ml-2">
                   {product.discountedPrice.toLocaleString("pt-br", {
                     style: "currency",
                     currency: "BRL",
@@ -182,7 +117,7 @@ export default function ProductGrid() {
             <CardFooter>
               <Button
                 onClick={() => addToCart(product.id)}
-                className="w-full bg-[#328366]"
+                className="w-full bg-[#328366] text-[9px]"
               >
                 Adicionar ao carrinho{" "}
                 {cart.find((item) => item.id === product.id)?.quantity
@@ -193,30 +128,6 @@ export default function ProductGrid() {
           </Card>
         ))}
       </div>
-
-      {/* Carrossel de Produtos Recentemente Visualizados */}
-      {recentlyViewed.length > 0 && (
-        <div className="mt-8">
-          <h3 className="text-xl font-bold mb-4">Recentemente Visualizados</h3>
-          <div className="flex space-x-4 overflow-x-auto">
-            {recentlyViewed.map((productId) => {
-              const product = products.find((p) => p.id === productId);
-              return product ? (
-                <div key={product.id} className="min-w-[150px]">
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    width={150}
-                    height={150}
-                    className="rounded-lg"
-                  />
-                  <p className="text-sm mt-2 text-center">{product.name}</p>
-                </div>
-              ) : null;
-            })}
-          </div>
-        </div>
-      )}
     </div>
   );
 }
