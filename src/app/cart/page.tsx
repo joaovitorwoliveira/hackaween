@@ -180,7 +180,7 @@ export default function CartPage() {
           </p>
           <Dialog>
             <DialogTrigger asChild>
-              <Button className="mt-4 bg-green-600 text-white hover:bg-green-500 px-6 py-3 rounded-lg">
+              <Button className="mt-4 bg-[#507a72] text-white hover:bg-green-500 px-6 py-3 rounded-lg">
                 Seguir com a entrega
               </Button>
             </DialogTrigger>
