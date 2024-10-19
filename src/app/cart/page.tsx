@@ -53,7 +53,7 @@ export default function CartPage() {
       .map((item) =>
         item.id === id ? { ...item, quantity: item.quantity - 1 } : item
       )
-      .filter((item) => item.quantity > 0); // Remove o item se a quantidade for 0
+      .filter((item) => item.quantity > 0);
     saveCartToLocalStorage(updatedCart);
   };
 
@@ -77,7 +77,7 @@ export default function CartPage() {
 
   const total = cartProducts.reduce((sum, item) => {
     if (!item) return sum;
-    return sum + item.discountPrice * (item.quantity || 1);
+    return sum + item.discountedPrice * (item.quantity || 1);
   }, 0);
 
   return (
@@ -105,7 +105,7 @@ export default function CartPage() {
                 <TableRow key={item.id}>
                   <TableCell>{item.name}</TableCell>
                   <TableCell>
-                    {item.discountPrice.toLocaleString("pt-br", {
+                    {item.discountedPrice.toLocaleString("pt-br", {
                       style: "currency",
                       currency: "BRL",
                     })}
@@ -113,7 +113,7 @@ export default function CartPage() {
                   <TableCell>
                     <Input
                       type="number"
-                      value={item.quantity || 1}
+                      value={item.stock || 1}
                       onChange={(e) =>
                         updateQuantity(item.id, parseInt(e.target.value))
                       }
@@ -122,7 +122,7 @@ export default function CartPage() {
                     />
                   </TableCell>
                   <TableCell>
-                    {(item.discountPrice * (item.quantity || 1)).toLocaleString(
+                    {(item.discountedPrice * (item.stock || 1)).toLocaleString(
                       "pt-br",
                       {
                         style: "currency",
