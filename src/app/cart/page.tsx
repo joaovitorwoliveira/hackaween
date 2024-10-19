@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/dialog";
 
 export default function CartPage() {
-  const [cart, setCart] = useState<{ id: number; quantity: number }[]>([]);
+  const [cart, setCart] = useState<{ id: number; stock: number }[]>([]);
 
   useEffect(() => {
     const storedCart = localStorage.getItem("cartItems");
@@ -34,14 +34,16 @@ export default function CartPage() {
     }
   }, []);
 
-  const saveCartToLocalStorage = (updatedCart: { id: number; quantity: number }[]) => {
+  const saveCartToLocalStorage = (
+    updatedCart: { id: number; stock: number }[]
+  ) => {
     setCart(updatedCart);
     localStorage.setItem("cartItems", JSON.stringify(updatedCart));
   };
 
   const addToCart = (id: number) => {
     const updatedCart = cart.map((item) =>
-      item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+      item.id === id ? { ...item, stock: item.stock + 1 } : item
     );
     const isInCart = cart.find((item) => item.id === id);
 
@@ -55,18 +57,18 @@ export default function CartPage() {
   const removeFromCart = (id: number) => {
     const updatedCart = cart
       .map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity - 1 } : item
+        item.id === id ? { ...item, stock: item.stock - 1 } : item
       )
-      .filter((item) => item.quantity > 0);
+      .filter((item) => item.stock > 0);
     saveCartToLocalStorage(updatedCart);
   };
 
-  const updateQuantity = (id: number, newQuantity: number) => {
-    if (newQuantity <= 0) {
+  const updateQuantity = (id: number, newStock: number) => {
+    if (newStock <= 0) {
       removeFromCart(id);
     } else {
       const updatedCart = cart.map((item) =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
+        item.id === id ? { ...item, stock: newStock } : item
       );
       saveCartToLocalStorage(updatedCart);
     }
@@ -81,13 +83,13 @@ export default function CartPage() {
   const cartProducts = cart
     .map((cartItem) => {
       const product = products.find((p) => p.id === cartItem.id);
-      return product ? { ...product, quantity: cartItem.quantity } : null;
+      return product ? { ...product, stock: cartItem.stock } : null;
     })
     .filter(Boolean);
 
   const total = cartProducts.reduce((sum, item) => {
     if (!item) return sum;
-    return sum + item.discountedPrice * (item.quantity || 1);
+    return sum + item.discountedPrice * (item.stock || 1);
   }, 0);
 
   return (
@@ -135,13 +137,12 @@ export default function CartPage() {
                       />
                     </TableCell>
                     <TableCell>
-                      {(item.discountedPrice * (item.quantity || 1)).toLocaleString(
-                        "pt-br",
-                        {
-                          style: "currency",
-                          currency: "BRL",
-                        }
-                      )}
+                      {(
+                        item.discountedPrice * (item.quantity || 1)
+                      ).toLocaleString("pt-br", {
+                        style: "currency",
+                        currency: "BRL",
+                      })}
                     </TableCell>
                     <TableCell className="flex gap-2 items-center">
                       <Button

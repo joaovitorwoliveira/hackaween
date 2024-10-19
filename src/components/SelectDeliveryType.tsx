@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Link from "next/link";
+
 import { Button } from "./ui/button";
 
 export default function SelectDeliveryType() {
@@ -54,8 +56,9 @@ export default function SelectDeliveryType() {
           </span>
         </p>
       </div>
-
-      <Button className="mt-4">Finalizar compra</Button>
+      <Link href={"cart/checkout"}>
+        <Button className="mt-4">Finalizar compra</Button>
+      </Link>
     </div>
   );
 }
