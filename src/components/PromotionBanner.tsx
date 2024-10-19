@@ -1,40 +1,19 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
-import { Button } from "@/components/ui/button"; // Ajuste o caminho conforme sua estrutura
 
-const images = [
-  { src: "/banner-1.png", alt: "Imagem 1" },
-];
-
-export default function ImageCarousel() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
-  };
-
+export default function LargeImage() {
   return (
-    <div className="relative mb-8 mx-4">
+    <div className="relative mb-8 max-w-screen-xl mt-[-30px]"> {/* Container para centralizar e definir o tamanho máximo */}
       <Image
-        src={images[currentIndex].src}
-        alt={images[currentIndex].alt}
+        src="/banner-1.png"
+        alt="Imagem 1"
         layout="responsive"
-        width={800}
-        height={800}
-        className="rounded-md"
+        width={1920} // Largura maior
+        height={1080} // Proporção 16:9
+        className="rounded-md h-[350px] w-full" // Altura fixa e largura total
+        objectFit="cover" // Para garantir que a imagem se ajuste sem distorções
       />
-      <div className="absolute top-1/2 transform -translate-y-1/2 left-0">
-        <Button onClick={prevSlide} variant="outline">Anterior</Button>
-      </div>
-      <div className="absolute top-1/2 transform -translate-y-1/2 right-0">
-        <Button onClick={nextSlide} variant="outline">Próximo</Button>
-      </div>
     </div>
   );
 }

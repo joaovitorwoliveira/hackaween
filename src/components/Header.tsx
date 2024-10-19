@@ -20,9 +20,9 @@ export default function Header() {
 
   return (
     <header className="bg-[#507a72] text-primary-foreground">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center mb-10">
+      <div className="container mx-auto pr-4 flex justify-between items-center mb-10">
         <Link href="/" className="text-2xl font-bold">
-          <Image src="/logo-new.png" width={100} height={100} alt="Logo" />
+          <Image src="/logo.png" width={150} height={150} alt="Logo" />
         </Link>
         <nav className="hidden md:flex space-x-4">
           {navItems.map((item) => (

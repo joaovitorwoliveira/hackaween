@@ -21,7 +21,7 @@ export default function ProductGrid() {
     if (storedCart) {
       setCart(JSON.parse(storedCart));
     }
-  }, []); // Este efeito roda apenas uma vez, na montagem do componente
+  }, []);
 
   const addToCart = (productId: number) => {
     const updatedCart = cart.map((item) =>
@@ -55,10 +55,16 @@ export default function ProductGrid() {
             <CardTitle>{product.name}</CardTitle>
             <div className="mt-2">
               <span className="text-muted-foreground line-through">
-                ${product.price.toFixed(2)}
+                {product.price.toLocaleString("pt-br", {
+                  style: "currency",
+                  currency: "BRL",
+                })}
               </span>
               <span className="text-xl font-bold ml-2">
-                ${product.discountPrice.toFixed(2)}
+                {product.discountPrice.toLocaleString("pt-br", {
+                  style: "currency",
+                  currency: "BRL",
+                })}
               </span>
             </div>
             {product.expiresIn === 0 ? (

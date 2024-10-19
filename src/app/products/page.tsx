@@ -1,10 +1,14 @@
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
 import ProductGrid from "@/components/ProductGrid";
 
 export default function ProductsPage() {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto">
+      <Header />
       <h1 className="text-4xl font-bold text-center mb-8">Nossos Produtos</h1>
       <ProductGrid />
+      <Footer />
     </div>
   );
 }
