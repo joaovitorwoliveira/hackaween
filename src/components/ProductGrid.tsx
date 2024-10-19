@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { products } from "@/data-mock/products";
 
 export default function ProductGrid() {
-  const [cart, setCart] = useState<{ id: number; quantity: number }[]>([]);
+  const [cart, setCart] = useState<{ id: number; stock: number }[]>([]);
   const [filterType, setFilterType] = useState<string>("name");
   const [filterValue, setFilterValue] = useState<string>("");
 
@@ -28,13 +28,13 @@ export default function ProductGrid() {
 
   const addToCart = (productId: number) => {
     const updatedCart = cart.map((item) =>
-      item.id === productId ? { ...item, quantity: item.quantity + 1 } : item
+      item.id === productId ? { ...item, stock: item.stock + 1 } : item
     );
 
     const isInCart = cart.find((item) => item.id === productId);
 
     if (!isInCart) {
-      updatedCart.push({ id: productId, quantity: 1 });
+      updatedCart.push({ id: productId, stock: 1 });
     }
 
     setCart(updatedCart);
@@ -120,8 +120,8 @@ export default function ProductGrid() {
                 className="w-full bg-[#328366] text-[9px]"
               >
                 Adicionar ao carrinho{" "}
-                {cart.find((item) => item.id === product.id)?.quantity
-                  ? `(${cart.find((item) => item.id === product.id)?.quantity})`
+                {cart.find((item) => item.id === product.id)?.stock
+                  ? `(${cart.find((item) => item.id === product.id)?.stock})`
                   : ""}
               </Button>
             </CardFooter>
