@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import {
   Card,
@@ -14,10 +14,14 @@ import { Badge } from "@/components/ui/badge";
 import { products } from "@/data-mock/products";
 
 export default function ProductGrid() {
-  const [cart, setCart] = useState<{ id: number; quantity: number }[]>(() => {
+  const [cart, setCart] = useState<{ id: number; quantity: number }[]>([]);
+
+  useEffect(() => {
     const storedCart = localStorage.getItem("cartItems");
-    return storedCart ? JSON.parse(storedCart) : [];
-  });
+    if (storedCart) {
+      setCart(JSON.parse(storedCart));
+    }
+  }, []); // Este efeito roda apenas uma vez, na montagem do componente
 
   const addToCart = (productId: number) => {
     const updatedCart = cart.map((item) =>
@@ -63,7 +67,7 @@ export default function ProductGrid() {
               </div>
             ) : (
               <Badge variant="secondary" className="mt-2">
-                Expira em {product.expiresIn} dias
+                Expira em {product.expiresIn} dia
                 {product.expiresIn > 1 ? "s" : ""}
               </Badge>
             )}
