@@ -49,7 +49,7 @@ export const products: Item[] = [
     companyId: 3,
     stock: 1,
     category: "Esportes",
-    condition: "Pouco usado",
+    condition: "Pequenos arranhões",
     expiresIn: 0,
   },
   {
