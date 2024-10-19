@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             {/* <h3 className="text-lg font-semibold mb-4">Sobre Última Chance</h3> */}
-            <p className="font-semibold">Economize hoje, preserve amanhã.</p>
+            <p className="font-semibold">Economize hoje, preserve o amanhã.</p>
           </div>
           <div>
             {/* <h3 className="text-lg font-semibold mb-4">Links</h3> */}
