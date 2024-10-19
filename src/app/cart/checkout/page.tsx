@@ -6,36 +6,33 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
-import { Item } from "@/data-mock/products";
+import { Item, products } from "@/data-mock/products";
 
 export default function CheckoutPage() {
-  const [total, setTotal] = useState(0);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
+  const [cart, setCart] = useState<{ id: number; stock: number }[]>([]);
   const router = useRouter();
 
   useEffect(() => {
     const storedCart = localStorage.getItem("cartItems");
     if (storedCart) {
-      const cartItems = JSON.parse(storedCart);
-      const products = JSON.parse(localStorage.getItem("products") || "[]");
+      setCart(JSON.parse(storedCart));
+    }
+  }, []);  
 
-      const cartProducts = cartItems
+    const cartProducts = cart
         .map((cartItem) => {
-          const product = products.find((p) => p.id === cartItem.id);
+          const product = products.find((p: Item) => p.id === cartItem.id);
           return product ? { ...product, stock: cartItem.stock } : null;
         })
         .filter(Boolean);
-
-      const totalAmount = cartProducts.reduce((sum: number, item: Item) => {
+  
+      const total = cartProducts.reduce((sum, item) => {
         if (!item) return sum;
         return sum + item.discountedPrice * (item.stock || 1);
       }, 0);
-
-      setTotal(totalAmount);
-    }
-  }, []);
 
   const handleCheckout = (e: React.FormEvent) => {
     e.preventDefault();

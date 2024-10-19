@@ -48,7 +48,7 @@ export default function CartPage() {
     const isInCart = cart.find((item) => item.id === id);
 
     if (!isInCart) {
-      updatedCart.push({ id, quantity: 1 });
+      updatedCart.push({ id, stock: 1 });
     }
 
     saveCartToLocalStorage(updatedCart);
@@ -128,7 +128,7 @@ export default function CartPage() {
                     <TableCell>
                       <Input
                         type="number"
-                        value={item.quantity || 1} // 'quantity' agora vem do estado do carrinho
+                        value={item.stock || 1} // 'stock' agora vem do estado do carrinho
                         onChange={(e) =>
                           updateQuantity(item.id, parseInt(e.target.value))
                         }
@@ -138,7 +138,7 @@ export default function CartPage() {
                     </TableCell>
                     <TableCell>
                       {(
-                        item.discountedPrice * (item.quantity || 1)
+                        item.discountedPrice * (item.stock || 1)
                       ).toLocaleString("pt-br", {
                         style: "currency",
                         currency: "BRL",
