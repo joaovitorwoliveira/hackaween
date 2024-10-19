@@ -1,16 +1,40 @@
-import { AlertCircle } from "lucide-react";
+"use client";
 
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useState } from "react";
+import Image from "next/image";
+import { Button } from "@/components/ui/button"; // Ajuste o caminho conforme sua estrutura
 
-export default function PromotionBanner() {
+const images = [
+  { src: "/banner-1.png", alt: "Imagem 1" },
+];
+
+export default function ImageCarousel() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+  };
+
   return (
-    <Alert variant="default" className="mb-8">
-      <AlertCircle className="h-4 w-4" />
-      <AlertTitle>Aproveite as principais ofertas!</AlertTitle>
-      <AlertDescription>
-        Ganhe 20% de desconto em todos os produtos da loja na sua primeira
-        compra.
-      </AlertDescription>
-    </Alert>
+    <div className="relative mb-8 mx-4">
+      <Image
+        src={images[currentIndex].src}
+        alt={images[currentIndex].alt}
+        layout="responsive"
+        width={800}
+        height={800}
+        className="rounded-md"
+      />
+      <div className="absolute top-1/2 transform -translate-y-1/2 left-0">
+        <Button onClick={prevSlide} variant="outline">Anterior</Button>
+      </div>
+      <div className="absolute top-1/2 transform -translate-y-1/2 right-0">
+        <Button onClick={nextSlide} variant="outline">Próximo</Button>
+      </div>
+    </div>
   );
 }

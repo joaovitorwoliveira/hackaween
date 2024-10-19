@@ -5,7 +5,7 @@ import PromotionBanner from "@/components/PromotionBanner";
 
 export default function Home() {
   return (
-    <div className="container mx-auto ">
+    <div className="container mx-auto bg-[#e5faf2]">
       <Header />
       <PromotionBanner />
       <ProductGrid />
