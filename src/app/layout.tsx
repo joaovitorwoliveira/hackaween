@@ -6,7 +6,6 @@ import {
   SignInButton,
   SignedIn,
   SignedOut,
-  UserButton,
 } from "@clerk/nextjs";
 
 const geistSans = localFont({
@@ -39,9 +38,7 @@ export default function RootLayout({
           <SignedOut>
             <SignInButton />
           </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
+          <SignedIn></SignedIn>
           {children}
         </body>
       </html>

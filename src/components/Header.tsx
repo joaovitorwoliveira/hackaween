@@ -7,6 +7,7 @@ import { ShoppingCart, Menu } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { UserButton } from "@clerk/nextjs";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,6 +39,7 @@ export default function Header() {
           <Link href="/cart">
             <ShoppingCart className="h-6 w-6" />
           </Link>
+
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="md:hidden">
               <Button variant="ghost" size="icon">
@@ -59,6 +61,7 @@ export default function Header() {
               </nav>
             </SheetContent>
           </Sheet>
+          <UserButton afterSignOutUrl="/" />
         </div>
       </div>
     </header>
