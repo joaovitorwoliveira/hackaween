@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -15,6 +16,14 @@ import Header from "@/components/Header";
 import Link from "next/link";
 import { Item, products } from "@/data-mock/products";
 import Footer from "@/components/Footer";
+import SelectDeliveryType from "@/components/SelectDeliveryType";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 export default function CartPage() {
   const [cart, setCart] = useState<{ id: number; quantity: number }[]>([]);
@@ -93,7 +102,18 @@ export default function CartPage() {
       </Table>
       <div className="mt-8 text-right">
         <p className="text-xl font-bold">Total: ${total.toFixed(2)}</p>
-        <Button className="mt-4">Proceed to Checkout</Button>
+
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button className="mt-4">Seguir com a entrega</Button>
+          </DialogTrigger>
+          <DialogContent className="rounded-lg">
+            <DialogHeader>
+              <DialogTitle>Selecione a sua entrega</DialogTitle>
+            </DialogHeader>
+            <SelectDeliveryType />
+          </DialogContent>
+        </Dialog>
       </div>
       <Footer />
     </div>
