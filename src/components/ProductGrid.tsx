@@ -73,7 +73,10 @@ export default function ProductGrid() {
             )}
           </CardContent>
           <CardFooter>
-            <Button onClick={() => addToCart(product.id)} className="w-full">
+            <Button
+              onClick={() => addToCart(product.id)}
+              className="w-full bg-[#328366]"
+            >
               Adicionar ao carrinho{" "}
               {cart.find((item) => item.id === product.id)?.quantity
                 ? `(${cart.find((item) => item.id === product.id)?.quantity})`
