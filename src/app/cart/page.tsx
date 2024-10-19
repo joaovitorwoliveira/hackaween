@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -11,32 +11,49 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-const initialCart = [
-  { id: 1, name: "Organic Milk", price: 1.99, quantity: 2 },
-  { id: 2, name: "Fresh Bread", price: 2.49, quantity: 1 },
-];
+import Header from "@/components/Header";
+import Link from "next/link";
+import { Item, products } from "@/data-mock/products";
 
 export default function CartPage() {
-  const [cart, setCart] = useState(initialCart);
+  const [cart, setCart] = useState<{ id: number; quantity: number }[]>([]);
+
+  useEffect(() => {
+    const storedCart = localStorage.getItem("cartItems");
+    if (storedCart) {
+      setCart(JSON.parse(storedCart));
+    }
+  }, []);
 
   const updateQuantity = (id: number, newQuantity: number) => {
-    setCart(
-      cart
-        .map((item) =>
-          item.id === id
-            ? { ...item, quantity: Math.max(0, newQuantity) }
-            : item
-        )
-        .filter((item) => item.quantity > 0)
-    );
+    const updatedCart = cart
+      .map((item) =>
+        item.id === id ? { ...item, quantity: Math.max(0, newQuantity) } : item
+      )
+      .filter((item) => item.quantity > 0);
+
+    setCart(updatedCart);
+    localStorage.setItem("cartItems", JSON.stringify(updatedCart));
   };
 
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const cartProducts = cart
+    .map((cartItem) => {
+      const product = products.find((p) => p.id === cartItem.id);
+      return product ? { ...product, quantity: cartItem.quantity } : null;
+    })
+    .filter(Boolean);
+
+  const total = cartProducts.reduce((sum, item) => {
+    if (!item) return sum;
+    return sum + item.price * (item.quantity || 1);
+  }, 0);
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Your Cart</h1>
+      <Header />
+      <Link href={"/"}>
+        <h1 className="text-3xl font-bold mb-8">Your Cart</h1>
+      </Link>
       <Table>
         <TableHeader>
           <TableRow>
@@ -47,24 +64,30 @@ export default function CartPage() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {cart.map((item) => (
-            <TableRow key={item.id}>
-              <TableCell>{item.name}</TableCell>
-              <TableCell>${item.price.toFixed(2)}</TableCell>
-              <TableCell>
-                <Input
-                  type="number"
-                  value={item.quantity}
-                  onChange={(e) =>
-                    updateQuantity(item.id, parseInt(e.target.value))
-                  }
-                  min="0"
-                  className="w-20"
-                />
-              </TableCell>
-              <TableCell>${(item.price * item.quantity).toFixed(2)}</TableCell>
-            </TableRow>
-          ))}
+          {cartProducts.map((item: Item | null) => {
+            if (item === null) return null;
+
+            return (
+              <TableRow key={item.id}>
+                <TableCell>{item.name}</TableCell>
+                <TableCell>${item.discountPrice.toFixed(2)}</TableCell>
+                <TableCell>
+                  <Input
+                    type="number"
+                    value={item.quantity || 1}
+                    onChange={(e) =>
+                      updateQuantity(item.id, parseInt(e.target.value))
+                    }
+                    min="0"
+                    className="w-20"
+                  />
+                </TableCell>
+                <TableCell>
+                  ${(item.discountPrice * (item.quantity || 1)).toFixed(2)}
+                </TableCell>
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
       <div className="mt-8 text-right">

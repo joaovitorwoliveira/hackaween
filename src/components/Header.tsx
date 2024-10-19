@@ -1,24 +1,24 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { ShoppingCart, Menu } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { useState } from "react";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
     { name: "Home", href: "/" },
-    { name: "Products", href: "/products" },
-    { name: "About", href: "/about" },
-    { name: "Contact", href: "/contact" },
+    { name: "Produtos", href: "/products" },
+    { name: "Sobre", href: "/about" },
   ];
 
   return (
     <header className="bg-primary text-primary-foreground">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+      <div className="container mx-auto px-4 py-4 flex justify-between items-center mb-10">
         <Link href="/" className="text-2xl font-bold">
           Ultima Chance
         </Link>
