@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Link from "next/link";
 import { Button } from "./ui/button";
 
 export default function SelectDeliveryType() {
@@ -11,12 +10,6 @@ export default function SelectDeliveryType() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <Link href={"/"}>
-        <h1 className="text-xl font-bold mb-8 text-center">
-          Selecione a sua entrega
-        </h1>
-      </Link>
-
       <div className="space-y-4">
         <div className="flex items-center">
           <input
