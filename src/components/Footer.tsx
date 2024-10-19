@@ -13,7 +13,7 @@ export default function Footer() {
             {/* <h3 className="text-lg font-semibold mb-4">Links</h3> */}
             <ul className="space-y-2">
               <li>
-                <Link href="/about">Sobre Nós</Link>
+                <Link href="/about-us">Sobre Nós</Link>
               </li>
               <li>
                 <Link href="/faq">FAQ</Link>

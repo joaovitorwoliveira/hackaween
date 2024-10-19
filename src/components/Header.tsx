@@ -24,12 +24,12 @@ export default function Header() {
         <Link href="/" className="text-2xl font-bold">
           <Image src="/logo.png" width={150} height={150} alt="Logo" />
         </Link>
-        <nav className="hidden md:flex space-x-4 ">
+        <nav className="hidden md:flex space-x-4">
           {navItems.map((item) => (
             <Link
               key={item.name}
               href={item.href}
-              className="hover:text-secondary-foreground "
+              className="hover:text-secondary-foreground"
             >
               {item.name}
             </Link>
