@@ -5,11 +5,13 @@ import PromotionBanner from "@/components/PromotionBanner";
 
 export default function Home() {
   return (
-    <div className="container mx-auto ">
+    <>
       <Header />
-      <PromotionBanner />
-      <ProductGrid />
+      <div className="container mx-auto px-4 py-8">
+        <PromotionBanner />
+        <ProductGrid />
+      </div>
       <Footer />
-    </div>
+    </>
   );
 }
