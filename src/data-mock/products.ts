@@ -10,6 +10,7 @@ export interface Item {
   category?: string;
   condition?: string;
   expiresIn: number;
+  quantity?: number;
 }
 
 export const products: Item[] = [
